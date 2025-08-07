@@ -48,7 +48,7 @@ def find_name(resume):
 
 def generate_summary(resume, description):
     prompt = f"Given the following resume:\n{resume}\n\nAnd job description:\n{description}\n\In 1-2 sentences, summarize why this candidate may be a good fit for the job."
-    response = client.chat.completions.create(model="gpt-3.5-turbo",
+    response = client.chat.completions.create(model="gpt-4o-mini-2024-07-18",
     messages=[
         {"role": "user", "content": prompt}
     ],
