@@ -49,9 +49,8 @@ with st.container():
 st.divider()
 
 if st.session_state.show_candidates:
-    if any(key not in st.session_state for key in ["all_resumes", "resume_embeddings", "job_embedding", "similarities"]):
-        st.session_state.all_resumes = utils.process_files(resume_files, resume_texts)
-        st.session_state.resume_embeddings = embedding_model.encode(st.session_state.all_resumes)
-        st.session_state.job_embedding = embedding_model.encode(job_description)
-        st.session_state.similarities = cosine_similarity(st.session_state.resume_embeddings, st.session_state.job_embedding.reshape(1, -1))
-    utils.display_candidates(st.session_state.all_resumes, st.session_state.similarities, job_description)
+    all_resumes = utils.process_files(resume_files, resume_texts)
+    resume_embeddings = embedding_model.encode(all_resumes)
+    job_embedding = embedding_model.encode(job_description)
+    similarities = cosine_similarity(resume_embeddings, job_embedding.reshape(1, -1))
+    utils.display_candidates(all_resumes, similarities, job_description)
