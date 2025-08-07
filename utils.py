@@ -38,7 +38,7 @@ def display_candidates(resumes, similarities, job_description):
 
 def find_name(resume):
     prompt = f"Given the following resume:\n{resume}\nReturn the candidate's name."
-    response = client.chat.completions.create(model="gpt-3.5-turbo",
+    response = client.chat.completions.create(model="gpt-4o-mini-2024-07-18",
     messages=[
         {"role": "user", "content": prompt}
     ],
