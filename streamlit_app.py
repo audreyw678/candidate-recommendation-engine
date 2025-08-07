@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # initialize embedding model
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')     # Hugging Face model for sentence similarity
-utils.load_phi3()
+#utils.load_phi3()
 
 if "show_candidates" not in st.session_state:
     st.session_state.show_candidates = False
