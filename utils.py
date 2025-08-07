@@ -1,6 +1,9 @@
 import streamlit as st
 from pypdf import PdfReader
 import numpy as np
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+
+
 
 def process_files(resume_files, resume_texts):
     all_resumes = []
@@ -36,3 +39,17 @@ def find_name(resume):
 
 def generate_summary(resume, description):
     return
+
+def load_phi3():
+    # Load tokenizer and model with trust_remote_code=True
+    tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-128k-instruct", trust_remote_code=True)
+    model = AutoModelForCausalLM.from_pretrained("microsoft/Phi-3-mini-128k-instruct", trust_remote_code=True)
+
+    # Create a text generation pipeline
+    pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+
+    # Generate text
+    prompt = "Hello, how are you?"
+    outputs = pipe(prompt, max_new_tokens=50)
+
+    print(outputs[0]['generated_text'])
