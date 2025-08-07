@@ -1,9 +1,13 @@
 import streamlit as st
 from pypdf import PdfReader
 import numpy as np
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from transformers import pipeline
+from openai import OpenAI
 
+client = OpenAI()
+import os
 
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 def process_files(resume_files, resume_texts):
     all_resumes = []
@@ -35,21 +39,16 @@ def display_candidates(resumes, similarities, job_description):
                 st.text(f"Why this candidate may be a good fit: {summary}")
 
 def find_name(resume):
-    return
+    prompt = f"Given the following resume:\n{resume}\nReturn the candidate's name."
+    response = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=[
+        {"role": "user", "content": prompt}
+    ],
+    max_tokens=20, temperature=0, n=1,stop=None)
+    name = response.choices[0].message.content.strip()
+    return name
 
 def generate_summary(resume, description):
-    return
-
-def load_phi3():
-    # Load tokenizer and model with trust_remote_code=True
-    tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-128k-instruct", trust_remote_code=True)
-    model = AutoModelForCausalLM.from_pretrained("microsoft/Phi-3-mini-128k-instruct", trust_remote_code=True)
-
-    # Create a text generation pipeline
-    pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
-
-    # Generate text
-    prompt = "Hello, how are you?"
-    outputs = pipe(prompt, max_new_tokens=50)
-
-    print(outputs[0]['generated_text'])
+    #prompt = f"Given the following resume:\n{resume}\n\nAnd job description:\n{description}\n\nTell me why this candidate may be a good fit for the job."
+    #output = pipeline(prompt)[0]['generated_text']
+    return #output
