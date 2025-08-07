@@ -34,7 +34,7 @@ with st.container():
     # resume input via text input
     with col2:
         resume_texts = []
-        num_resumes = st.number_input("Number of resumes to input manually", min_value=1, step=1)
+        num_resumes = st.number_input("Number of resumes to input manually", min_value=0, step=1)
         for i in range(num_resumes):
             resume_texts.append(st.text_area("Paste resume " + str(i+1) + " text here", key=i))
 

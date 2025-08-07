@@ -3,11 +3,9 @@ from pypdf import PdfReader
 import numpy as np
 from transformers import pipeline
 from openai import OpenAI
-
-client = OpenAI()
 import os
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def process_files(resume_files, resume_texts):
     all_resumes = []
@@ -49,6 +47,11 @@ def find_name(resume):
     return name
 
 def generate_summary(resume, description):
-    #prompt = f"Given the following resume:\n{resume}\n\nAnd job description:\n{description}\n\nTell me why this candidate may be a good fit for the job."
-    #output = pipeline(prompt)[0]['generated_text']
-    return #output
+    prompt = f"Given the following resume:\n{resume}\n\nAnd job description:\n{description}\n\In 1-2 sentences, summarize why this candidate may be a good fit for the job."
+    response = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=[
+        {"role": "user", "content": prompt}
+    ],
+    max_tokens=80, temperature=0.3, n=1,stop=None)
+    answer = response.choices[0].message.content.strip()
+    return answer
