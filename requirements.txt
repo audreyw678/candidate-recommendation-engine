@@ -1,4 +1,8 @@
 streamlit
 pypdf
+numpy
+openai
+sentence-transformers
+scikit-learn
 transformers
-sentence-transformersrun
+torch
