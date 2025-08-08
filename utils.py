@@ -15,7 +15,7 @@ def process_files(resume_files, resume_texts):
             for page in reader.pages:
                 text += page.extract_text() + "\n"
             all_resumes.append(text.strip())
-        else:
+        else:                                           # resume is .txt file
             text = file.read().decode("utf-8")
             all_resumes.append(text.strip())
     for txt in resume_texts:
@@ -25,7 +25,7 @@ def process_files(resume_files, resume_texts):
 def display_candidates(resumes, similarities, job_description):
     candidate_list = st.container()
     with candidate_list:
-        best_indices = np.argsort(similarities.flatten())[-5:][::-1]
+        best_indices = np.argsort(similarities.flatten())[-5:][::-1]    # indices of 5 candidates with highest similarity
         for i in best_indices:
             name = find_name(resumes[i])
             sim = similarities[i][0]
@@ -36,21 +36,17 @@ def display_candidates(resumes, similarities, job_description):
                 st.text(f"Why this candidate may be a good fit: {summary}")
 
 def find_name(resume):
-    prompt = f"Given the following resume:\n{resume}\nReturn the candidate's name only."
+    prompt = f"Given the following resume:\n{resume}\nReturn the candidate's name only and nothing else."
     response = client.chat.completions.create(model="gpt-4o-mini-2024-07-18",
-    messages=[
-        {"role": "user", "content": prompt}
-    ],
-    max_tokens=20, temperature=0, n=1,stop=None)
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=20, temperature=0, n=1,stop=None)
     name = response.choices[0].message.content.strip()
     return name
 
 def generate_summary(resume, description):
     prompt = f"Given the following resume:\n{resume}\n\nAnd job description:\n{description}\nIn 1-2 sentences, very briefly summarize why this candidate may be a good fit for the job."
     response = client.chat.completions.create(model="gpt-4o-mini-2024-07-18",
-    messages=[
-        {"role": "user", "content": prompt}
-    ],
-    max_tokens=100, temperature=0.3, n=1,stop=None)
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=100, temperature=0.3, n=1,stop=None)
     answer = response.choices[0].message.content.strip()
     return answer

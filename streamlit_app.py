@@ -5,8 +5,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # initialize embedding model
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')     # Hugging Face model for sentence similarity
-#if "pipeline" not in st.session_state:
-#    st.session_state.pipeline = utils.load_model()
 
 if "show_candidates" not in st.session_state:
     st.session_state.show_candidates = False
@@ -50,8 +48,9 @@ with st.container():
 st.divider()
 
 if st.session_state.show_candidates:
-    all_resumes = utils.process_files(resume_files, resume_texts)
-    resume_embeddings = embedding_model.encode(all_resumes)
-    job_embedding = embedding_model.encode(job_description)
-    similarities = cosine_similarity(resume_embeddings, job_embedding.reshape(1, -1))
-    utils.display_candidates(all_resumes, similarities, job_description)
+    all_resumes = utils.process_files(resume_files, resume_texts)   # combine uploaded and text resumes into a single list of strings
+    if all_resumes and job_description:                                                             
+        resume_embeddings = embedding_model.encode(all_resumes)     
+        job_embedding = embedding_model.encode(job_description)         
+        similarities = cosine_similarity(resume_embeddings, job_embedding.reshape(1, -1)) 
+        utils.display_candidates(all_resumes, similarities, job_description)
