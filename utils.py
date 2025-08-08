@@ -1,7 +1,6 @@
 import streamlit as st
 from pypdf import PdfReader
 import numpy as np
-from transformers import pipeline
 from openai import OpenAI
 import os
 
@@ -37,7 +36,7 @@ def display_candidates(resumes, similarities, job_description):
                 st.text(f"Why this candidate may be a good fit: {summary}")
 
 def find_name(resume):
-    prompt = f"Given the following resume:\n{resume}\nReturn the candidate's name."
+    prompt = f"Given the following resume:\n{resume}\nReturn the candidate's name only."
     response = client.chat.completions.create(model="gpt-4o-mini-2024-07-18",
     messages=[
         {"role": "user", "content": prompt}
@@ -47,11 +46,11 @@ def find_name(resume):
     return name
 
 def generate_summary(resume, description):
-    prompt = f"Given the following resume:\n{resume}\n\nAnd job description:\n{description}\n\In 1-2 sentences, summarize why this candidate may be a good fit for the job."
+    prompt = f"Given the following resume:\n{resume}\n\nAnd job description:\n{description}\nIn 1-2 sentences, very briefly summarize why this candidate may be a good fit for the job."
     response = client.chat.completions.create(model="gpt-4o-mini-2024-07-18",
     messages=[
         {"role": "user", "content": prompt}
     ],
-    max_tokens=80, temperature=0.3, n=1,stop=None)
+    max_tokens=100, temperature=0.3, n=1,stop=None)
     answer = response.choices[0].message.content.strip()
     return answer
