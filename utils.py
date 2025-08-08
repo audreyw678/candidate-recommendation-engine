@@ -36,7 +36,7 @@ def display_candidates(resumes, similarities, job_description):
                 st.text(f"Why this candidate may be a good fit: {summary}")
 
 def find_name(resume):
-    prompt = f"Given the following resume:\n{resume}\nReturn the candidate's name only and nothing else."
+    prompt = f"Given the following resume:\n{resume}\nReturn the candidate's name only and nothing else. N/A if not found."
     response = client.chat.completions.create(model="gpt-4o-mini-2024-07-18",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=20, temperature=0, n=1,stop=None)
