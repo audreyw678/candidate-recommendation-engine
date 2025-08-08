@@ -10,7 +10,7 @@ $ streamlit run app.py
 
 # Assumptions:
 
-- User has an OpenAI API key.
+- (Only if running app locally) User has an OpenAI API key.
 - Resumes contain the candidate's name.
 - Job description and resumes are all in English.
 
