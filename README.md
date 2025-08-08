@@ -26,4 +26,5 @@ $ streamlit run app.py
 3. Displaying top candidates
    - 5 candidates with highest similarity scores are displayed in descending order by similarity
    - Candidate name is returned by OpenAI model ```gpt-4o-mini```
+   - ```gpt-4o-mini``` also generates a summary on why the candidate is a good fit for the job.
 
