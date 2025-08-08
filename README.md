@@ -1,10 +1,13 @@
-# To run app:
+# To run app locally (requires OpenAI API key):
 
 ```
 $ export OPENAI_API_KEY="your_api_key_here"
 $ pip install -r requirements.txt
 $ streamlit run app.py
 ```
+
+# To run app via Streamlit Cloud:
+Go to https://candidate-recommendation.streamlit.app/
 
 # Assumptions:
 
