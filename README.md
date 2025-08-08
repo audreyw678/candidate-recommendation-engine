@@ -2,9 +2,7 @@
 
 ```
 $ export OPENAI_API_KEY="your_api_key_here"
-
 $ pip install -r requirements.txt
-
 $ streamlit run app.py
 ```
 
@@ -28,3 +26,9 @@ $ streamlit run app.py
    - Candidate name is returned by OpenAI model ```gpt-4o-mini```
    - ```gpt-4o-mini``` also generates a summary on why the candidate is a good fit for the job.
 
+# Known Issues:
+- The app sporadically displays the following error:
+   ```
+   NotImplementedError: Cannot copy out of meta tensor; no data! Please use torch.nn.Module.to_empty() instead of torch.nn.Module.to() when moving module from meta to a different device.
+   ```
+   This issue is almost always fixed by simply reloading the page.
